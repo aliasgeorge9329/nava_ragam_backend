@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="/Images/logo.ico" />
+</head>
+<body>
+
+    <br><br>
+    <% data=JSON.parse(data) %>
+
+    <% data.forEach(function(user_data){ i= data.indexOf(user_data)+1%>
+             
+  <div>No:<%=i%> <br> Name: <%=user_data.name %> <br>Email id: <%=user_data.username %> <br>College: <%=user_data.college %> <br>Sentence Filled: <%=user_data.sentence %> <br>Status: <%=user_data.status%> <br></div><br><hr><br>
+
+
+    <% }) %>
+
+    
+</body>
+</html>
