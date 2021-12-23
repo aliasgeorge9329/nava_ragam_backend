@@ -11,10 +11,11 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 var flash = require("connect-flash");
 var ObjectId = require("mongodb").ObjectID;
+var cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 3000;
-
+app.use(cors());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -124,8 +125,15 @@ app.get("/", function (req, res) {
   res.send("<h1>HOME</h1>");
 });
 
+var quotescorOptions = {
+  origin: "*",
+  methods: "GET",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
 //Accepted Quotes fetch Route
-app.get("/quotes/:no", function (req, res) {
+app.get("/quotes/:no", cors(quotescorOptions), function (req, res) {
   Quote.find(
     { status: "accepted" },
     { __v: 0, status: 0, _id: 0, createdAt: 0, updatedAt: 0 },
@@ -157,8 +165,15 @@ app.get("/quotes/:no", function (req, res) {
   // res.send(JSON.stringify(all_quotes));
 });
 
+var composecorOptions = {
+  origin: "*",
+  methods: "POST",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
 // Post Compose Route
-app.post("/compose", function (req, res) {
+app.post("/compose", cors(composecorOptions), function (req, res) {
   const user_sentence = req.body.sentence;
   const quote = new Quote({
     sentence: String(user_sentence)
