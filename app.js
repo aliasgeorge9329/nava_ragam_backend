@@ -17,7 +17,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({extended: true,}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(
@@ -76,13 +76,14 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-passport.use(new GoogleStrategy(
+passport.use(
+  new GoogleStrategy(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/google/admin",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-      redirect_uri: "http://localhost:3000/auth/google/admin"
+      redirect_uri: "http://localhost:3000/auth/google/admin",
     },
     function (accessToken, refreshToken, profile, cb) {
       User.findOrCreate(
@@ -95,9 +96,13 @@ passport.use(new GoogleStrategy(
   )
 );
 
-app.get("/auth/google",passport.authenticate("google", { scope: ["profile", "email"] }));
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
-app.get("/auth/google/admin",
+app.get(
+  "/auth/google/admin",
   passport.authenticate("google", { failureRedirect: "/" }),
   function (req, res) {
     // Successful authentication, redirect to compose.
@@ -105,10 +110,11 @@ app.get("/auth/google/admin",
     if (admin_username.indexOf(String(req["user"].username).trim()) != -1) {
       res.redirect("/admin");
     } else {
-      User.deleteOne({ username: String(req["user"].username).trim() }).then(function(){
-    }).catch(function(error){
-        console.log(error); 
-    });
+      User.deleteOne({ username: String(req["user"].username).trim() })
+        .then(function () {})
+        .catch(function (error) {
+          console.log(error);
+        });
       res.send("Not Permitted");
     }
   }
@@ -121,42 +127,40 @@ app.get("/", function (req, res) {
 
 //Accepted Quotes fetch Route
 app.get("/quotes/:no", function (req, res) {
-  Quote.find({},{ __v: 0, status: 0, _id: 0,createdAt:0,updatedAt:0},function (err, all_quotes) {
+  Quote.find(
+    {},
+    { __v: 0, status: 0, _id: 0, createdAt: 0, updatedAt: 0 },
+    function (err, all_quotes) {
       if (err) {
         console.log(err);
-      } 
-      else {
-
-        console.log(all_quotes)
-
-        if (parseInt(req.params.no) < all_quotes.length){
-
-          random_quotes =[];
+      } else {
+        if (parseInt(req.params.no) < all_quotes.length) {
+          random_quotes = [];
           var random_no_arr = [];
-       while(random_no_arr.length <= parseInt(req.params.no)){
-           var r = Math.floor(Math.random() * all_quotes.length);
-                if(random_no_arr.indexOf(r) === -1) random_no_arr.push(r);
-            }
-            console.log(random_no_arr)
+          while (random_no_arr.length < parseInt(req.params.no)) {
+            var r = Math.floor(Math.random() * all_quotes.length);
+            if (random_no_arr.indexOf(r) === -1) random_no_arr.push(r);
+          }
 
-          for(i=0;i<random_no_arr.length;i++){
-            random_no = random_no_arr[i]
-          random_quotes.push(all_quotes[random_no])
+          for (i = 0; i < random_no_arr.length; i++) {
+            random_no = random_no_arr[i];
+            random_quotes.push(all_quotes[random_no]);
+          }
+          res.send(random_quotes);
+        } else {
+          res.send(all_quotes);
         }
-        res.send(random_quotes);
-      }
-      else{
-        res.send(all_quotes);
-      }
       }
     }
-  ).sort({"updatedAt": -1}).limit(2*parseInt(req.params.no));
+  )
+    .sort({ updatedAt: -1 })
+    .limit(2 * parseInt(req.params.no));
   // res.send(JSON.stringify(all_quotes));
   // {status: "accepted"}
 });
 
 // Post Compose Route
-app.post("/compose",function (req, res) {
+app.post("/compose", function (req, res) {
   const user_sentence = req.body.sentence;
   const quote = new Quote({
     sentence: String(user_sentence)
@@ -174,27 +178,29 @@ app.get("/admin", function (req, res) {
     admin_username.indexOf(String(req["user"].username).trim()) != -1
   ) {
     message_ = req.flash("message")[0];
-    Quote.find({},{ __v: 0,createdAt:0,updatedAt:0}, function (err, all_user) {
-      if (err) {
-        console.log(err);
-      } else {
-        all_user.forEach(function (each) {
-          if (
-            each.status == null &&
-            admin_username.indexOf(String(each.username).trim()) != -1 &&
-            each.sentence != null
-          ) {
-            globalThis.users_printed_login_admin.push(String(each._id));
-          }
-        });
-        res.render("admin", { user: all_user, err_msg: message_ });
+    Quote.find(
+      {},
+      { __v: 0, createdAt: 0, updatedAt: 0 },
+      function (err, all_user) {
+        if (err) {
+          console.log(err);
+        } else {
+          all_user.forEach(function (each) {
+            if (
+              each.status == null &&
+              admin_username.indexOf(String(each.username).trim()) != -1 &&
+              each.sentence != null
+            ) {
+              globalThis.users_printed_login_admin.push(String(each._id));
+            }
+          });
+          res.render("admin", { user: all_user, err_msg: message_ });
+        }
       }
-    });
+    );
+  } else {
+    res.redirect("/auth/google");
   }
-    else {
-      res.redirect("/auth/google");
-    }
-  
 });
 
 app.post("/admin", function (req, res) {
@@ -234,8 +240,7 @@ app.post("/admin", function (req, res) {
     req.flash("message", "saved");
     users_printed_login_admin = [];
     res.redirect("/admin");
-  }
-  else {
+  } else {
     res.send("Not Permitted");
   }
 });
@@ -263,8 +268,7 @@ app.post("/modify_accepted", function (req, res) {
     req.flash("message", "saved");
     users_printed_login_admin = [];
     res.redirect("/admin");
-  }
-  else {
+  } else {
     res.send("Not Permitted");
   }
 });
@@ -274,18 +278,22 @@ app.get("/print", function (req, res) {
     req.isAuthenticated() &&
     admin_username.indexOf(String(req["user"].username).trim()) != -1
   ) {
-    Quote.find({}, { _id: 0, __v: 0,createdAt:0,updatedAt:0}, function (err, all_user) {
-      print_user = [];
-      all_user.forEach(function (each) {
-        if (
-          admin_username.indexOf(String(each.username).trim()) == -1 &&
-          each.sentence != null
-        ) {
-          print_user.push(each);
-        }
-      });
-      res.render("print", { data: JSON.stringify(print_user) });
-    });
+    Quote.find(
+      {},
+      { _id: 0, __v: 0, createdAt: 0, updatedAt: 0 },
+      function (err, all_user) {
+        print_user = [];
+        all_user.forEach(function (each) {
+          if (
+            admin_username.indexOf(String(each.username).trim()) == -1 &&
+            each.sentence != null
+          ) {
+            print_user.push(each);
+          }
+        });
+        res.render("print", { data: JSON.stringify(print_user) });
+      }
+    );
   } else {
     res.send("Not Permitted");
   }
