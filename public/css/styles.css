@@ -2,88 +2,100 @@ html {
   min-height: 100%;
   position: relative;
 }
- 
-.fixednavbar{
-  top:0;
-  z-index:30;
+
+.fixednavbar {
+  top: 0;
+  z-index: 30;
   position: fixed;
   width: 100%;
   margin-bottom: 20px;
 }
 button {
-    background: none;
-    color: inherit;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-  }
-  .backgrnd {
-    background-image: url("./Images/background.png");
-    background-size: cover;
-  }
-  .navbar-complete {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: black;
-    color: white;
-    height: 100px;
-  }
-  .brand-title {
-    font-size: 3.5rem;
-    margin: 2rem;
-    padding-left: 60px;
-    display: flex;
-  }
-  .brand-title h1:hover {
-    color: rgb(238, 207, 108);
-    cursor: pointer;
-  }
-  .navbar-links {
-    margin-right: 50px;
-  }
-  .navbar-links ul {
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-  .navbar-links li {
-    list-style: none;
-  }
-  .navbar-links li a {
-    text-decoration: none;
-    color: white;
-    padding-right: 100px;
-    display: block;
-  }
-  .navbar-links li a:hover {
-    color: rgb(238, 207, 108);
-  }
-  .navbar-links li button {
-    text-decoration: none;
-    color: white;
-    padding-right: 100px;
-    display: block;
-  }
-  .navbar-links li button:hover {
-    color: rgb(238, 207, 108);
-  }
-  .login {
-    padding-left: 75px;
-    color: white;
-  }
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+.backgrnd {
+  background-image: url("./Images/background.png");
+  background-size: cover;
+}
+.navbar-complete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  color: white;
+  height: 100px;
+}
+.brand-title {
+  font-size: 3.5rem;
+  margin: 2rem;
+  padding-left: 60px;
+  display: flex;
+}
+.brand-title h1:hover {
+  color: rgb(238, 207, 108);
+  cursor: pointer;
+}
+.navbar-links {
+  margin-right: 50px;
+}
+.navbar-links ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+.navbar-links li {
+  list-style: none;
+}
+.navbar-links li a {
+  text-decoration: none;
+  color: white;
+  padding-right: 100px;
+  display: block;
+}
+.navbar-links li a:hover {
+  color: rgb(238, 207, 108);
+}
+.navbar-links li button {
+  text-decoration: none;
+  color: white;
+  padding-right: 100px;
+  display: block;
+}
+.navbar-links li button:hover {
+  color: rgb(238, 207, 108);
+}
+.login {
+  padding-left: 75px;
+  color: white;
+}
 
-  
-  @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
-  * {
-    margin: 0;
-    padding: 0;
-    outline: none;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
-  body {
-    background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%);
-  }
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%);
+}
+
+table {
+  color: black;
+  text-align: center;
+}
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+  padding: 15px;
+}

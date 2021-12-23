@@ -32,7 +32,6 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-users_printed_login_admin = [];
 admin_usernames = process.env.ADMIN_ID;
 // add admin as admin1|admin2| ..
 admin_username = admin_usernames.trim().split("|");
@@ -128,7 +127,7 @@ app.get("/", function (req, res) {
 //Accepted Quotes fetch Route
 app.get("/quotes/:no", function (req, res) {
   Quote.find(
-    {},
+    { status: "accepted" },
     { __v: 0, status: 0, _id: 0, createdAt: 0, updatedAt: 0 },
     function (err, all_quotes) {
       if (err) {
@@ -156,7 +155,6 @@ app.get("/quotes/:no", function (req, res) {
     .sort({ updatedAt: -1 })
     .limit(2 * parseInt(req.params.no));
   // res.send(JSON.stringify(all_quotes));
-  // {status: "accepted"}
 });
 
 // Post Compose Route
@@ -181,20 +179,11 @@ app.get("/admin", function (req, res) {
     Quote.find(
       {},
       { __v: 0, createdAt: 0, updatedAt: 0 },
-      function (err, all_user) {
+      function (err, all_quotes) {
         if (err) {
           console.log(err);
         } else {
-          all_user.forEach(function (each) {
-            if (
-              each.status == null &&
-              admin_username.indexOf(String(each.username).trim()) != -1 &&
-              each.sentence != null
-            ) {
-              globalThis.users_printed_login_admin.push(String(each._id));
-            }
-          });
-          res.render("admin", { user: all_user, err_msg: message_ });
+          res.render("admin", { user: all_quotes, err_msg: message_ });
         }
       }
     );
@@ -208,12 +197,18 @@ app.post("/admin", function (req, res) {
     req.isAuthenticated() &&
     admin_username.indexOf(String(req["user"].username).trim()) != -1
   ) {
-    accepted_ = Object.keys(req.body);
-    accepted_.pop();
-    rejected = globalThis.users_printed_login_admin.filter(
-      (el) => !accepted_.includes(el)
-    );
-    approved = accepted_;
+    accepted = [];
+    rejected = [];
+    let data = req.body;
+    delete data.button;
+    Object.keys(data).forEach((key) => {
+      value = data[key];
+      if (value == "reject") {
+        rejected.push(key);
+      } else {
+        accepted.push(key);
+      }
+    });
 
     rejected.forEach(function (id) {
       Quote.findById(ObjectId(id), function (err, foundQuote) {
@@ -226,7 +221,7 @@ app.post("/admin", function (req, res) {
       });
     });
 
-    accepted_.forEach(function (id) {
+    accepted.forEach(function (id) {
       Quote.findById(ObjectId(id), function (err, foundQuote) {
         if (err) {
           console.log(err);
@@ -238,7 +233,6 @@ app.post("/admin", function (req, res) {
     });
 
     req.flash("message", "saved");
-    users_printed_login_admin = [];
     res.redirect("/admin");
   } else {
     res.send("Not Permitted");

@@ -14,7 +14,7 @@
 
     <nav class="navbar-complete">
       <div class="brand-title">
-        <a href="#"><h1>Wall of Sustainability</h1></a>
+        <a href="#"><h1>Nava Ragam</h1></a>
       </div>
       <div class="navbar-links">
         <ul>
@@ -36,17 +36,24 @@
           <div class="form-group">
             
             <h2 style="font-family: 'Times New Roman', Times, serif; color: red;"><u>Tick the sentence which you feel Good</u></h2>
-            <h4>Be carefull while ticking. Once accepted the quote user will be alert via email</h4>
             <br><br><br>
-          
+          <table>             
+              <tr >
+                <th>Accept</th>
+                <th >Reject</th>
+                <th >Quote</th>
+              </tr>
+
         <%  user.forEach(function(user_data){ if (user_data.sentence != null && user_data.status != "accepted" && user_data.status != "rejected") {%>
            
-
-          <input type="checkbox" name=<%=user_data._id%>>
-          <label><h3><%=user_data.sentence%></h3> </label>
-          <br>
+          <tr>
+            <td > <input type="checkbox" value="accept" name=<%=user_data._id%>></td>
+            <td ><input type="checkbox" value="reject" name=<%=user_data._id%>></td>
+            <td ><h3><%=user_data.sentence%></h3> </td>
+          </tr>
       
           <% };}) %>
+            </table>
 
 <br>
           <button class="btn btn-primary" type="submit" name="button">Confirm</button>
@@ -72,16 +79,19 @@
   
               <h2 style="font-family: 'Times New Roman', Times, serif; color: red;"><u>Tick the sentence to remove</u></h2>
               <br><br><br>
-            
+              <table>             
+                <tr >
+                  <th >Reject</th>
+                  <th >Quote</th>
+                </tr>
           <%  user.forEach(function(user_data){ if (user_data.status == "accepted") {%>
-             
-  
-            <input type="checkbox" name=<%=user_data._id%>>
-            <label><h3><%=user_data.sentence%></h3> </label>
+            <tr>
+              <td > <input type="checkbox" name=<%=user_data._id%>></td>
+              <td ><label><h3><%=user_data.sentence%></h3> </label></td>
             <br>
         
             <% };}) %>
-  
+              </table>
   <br>
             <button class="btn btn-primary" type="submit" name="button">Confirm</button>
         </form>
