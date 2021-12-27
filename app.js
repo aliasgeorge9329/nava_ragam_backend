@@ -181,8 +181,10 @@ app.post("/compose", cors(composecorOptions), function (req, res) {
       .filter((word) => word)
       .join(" "),
   });
-  quote.save();
-  res.redirect("/");
+  quote.save(function () {
+    req.flash("message", "saved");
+    res.redirect("/");
+  });
 });
 
 app.get("/admin", function (req, res) {
