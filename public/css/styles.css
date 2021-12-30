@@ -27,8 +27,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: black;
-  color: white;
+  /* background-color: rgb(236, 236, 236); */
   height: 100px;
 }
 .brand-title {
@@ -36,10 +35,6 @@ button {
   margin: 2rem;
   padding-left: 60px;
   display: flex;
-}
-.brand-title h1:hover {
-  color: rgb(238, 207, 108);
-  cursor: pointer;
 }
 .navbar-links {
   margin-right: 50px;
@@ -57,22 +52,12 @@ button {
   color: white;
   padding-right: 100px;
   display: block;
+  font-size: 1.6rem;
+  font-weight: bold;
 }
-.navbar-links li a:hover {
-  color: rgb(238, 207, 108);
-}
-.navbar-links li button {
-  text-decoration: none;
-  color: white;
-  padding-right: 100px;
-  display: block;
-}
+
 .navbar-links li button:hover {
   color: rgb(238, 207, 108);
-}
-.login {
-  padding-left: 75px;
-  color: white;
 }
 
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
@@ -84,18 +69,46 @@ button {
   font-family: "Poppins", sans-serif;
 }
 body {
-  background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%);
+  /* background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%); */
+  background: black;
+  color: white;
+  overflow-x: hidden;
 }
 
 table {
-  color: black;
+  color: white;
   text-align: center;
 }
 table,
 th,
 td {
-  border: 1px solid black;
+  border: 1px solid rgb(230, 230, 230);
   border-collapse: collapse;
   text-align: center;
   padding: 15px;
+}
+
+.print {
+  display: flex;
+  justify-content: center;
+}
+
+.reject_mark {
+  color: red;
+  text-decoration: line-through;
+}
+
+.accept_mark {
+  color: rgb(79, 238, 79);
+}
+
+.btnwhite {
+  border: 1px solid white;
+  padding: 5px 10px;
+  border-radius: 10%;
+}
+
+.btnwhite:hover {
+  background-color: white;
+  color: black;
 }

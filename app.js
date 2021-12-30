@@ -222,7 +222,7 @@ app.post("/admin", function (req, res) {
       value = data[key];
       if (value == "reject") {
         rejected.push(key);
-      } else {
+      } else if (value == "accept") {
         accepted.push(key);
       }
     });
