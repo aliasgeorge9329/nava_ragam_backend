@@ -194,7 +194,10 @@ app.post("/compose", cors(composecorOptions), function (req, res) {
 });
 
 app.get("/admin", function (req, res) {
-  if (true) {
+  if (
+    req.isAuthenticated() &&
+    admin_username.indexOf(String(req["user"].username).trim()) != -1
+  ) {
     message_ = req.flash("message")[0];
     Quote.find(
       {},
