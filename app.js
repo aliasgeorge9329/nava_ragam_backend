@@ -122,7 +122,8 @@ app.get(
 
 // Home Route
 app.get("/", function (req, res) {
-  res.send("<h1>HOME</h1>");
+  // res.send("<h1>HOME</h1>");
+  res.redirect("https://nava.ragam.live");
 });
 
 var quotescorOptions = {
