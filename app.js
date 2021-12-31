@@ -127,7 +127,7 @@ app.get("/", function (req, res) {
 });
 
 var quotescorOptions = {
-  origin: "https://nava.ragam.live/",
+  origin: "*",
   methods: "GET",
   preflightContinue: false,
   optionsSuccessStatus: 204,
@@ -167,7 +167,7 @@ app.get("/quotes/:no", cors(quotescorOptions), function (req, res) {
 });
 
 var composecorOptions = {
-  origin: "https://nava.ragam.live",
+  origin: "*",
   methods: "POST",
   preflightContinue: false,
   optionsSuccessStatus: 204,
